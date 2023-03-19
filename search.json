@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
-    "section": "",
-    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
-  },
-  {
     "objectID": "posts/Billionaires.html",
     "href": "posts/Billionaires.html",
     "title": "myblog",
@@ -21,13 +14,6 @@
     "text": "Discussion\nThe data analysis and visualizations above can be extrapolated to answer the research questions stated in the introduction. Firstly, the industries that reap the most billionaires changes over time, even within the span of a decade. However, there are industries that consistently produce billionaires like consumer industries, while other industries like education are left out. Industries like consumer ones make it possible for single individuals to amass vast wealth, suggesting that new policies and regulation could help to distribute wealth more equitably in these industries.\nSecondly, a predominant characteristic of billionaires is being male past the age of 40. This suggests that becoming a billionaire takes a significant amount of time to build wealth. Females are poorly represented in the billionaires group, suggesting females are disadvantaged in joining the wealthiest group. Gender discrimination plays a role in this by limiting opportunities for advancement, capital, and higher pay. Furthermore, gender stereotypes can make it hard for women to pursue business and entrepreneurial ventures, which is how the wealthy earn their wealth. Addressing these issues requires changing policy and cultural perspectives to increase opportunities for women to advance in whatever industry they desire.\nAdditionally, the United States consistently produces the most billionaires, followed by China, Denmark, and Russia. Notably, these countries are among the most developed in the world and can provide the resources needed for billionaires to be created. These countries have among the largest economies and foster entrepreneurship and innovation. These are key ingredients for businesses to start, grow, and succeed, which allows new billionaires to arise. Also, these countries likely have laws, tax environments, and regulations that encourage business owners to conduct business in these countries. Thus, by living and working in one of these countries, an individual is more likely to accumulate extreme levels of wealth than in other countries.\nThese findings highlight key characteristics of billionaires. From this, investors and entrepreneurs can identify important industries that are likely to generate wealth. In addition, the public can better understand how billionaires affect their respective industries. This is particularly important in addressing issues such as wealth inequality, philanthropy, and the relationship between business and society. Lastly, as an individual, knowing that becoming a billionaire takes significant time can help them to gain motivation to work for the long run. Overall, these findings are useful for the general good of the people.\nIn conclusion, I was able to find commond trends and factors in billionaires using the CorGIS dataset. Hopefully, these insights can help to raise public awareness and lead towards a more equitable society."
   },
   {
-    "objectID": "posts/post-with-code/index.html",
-    "href": "posts/post-with-code/index.html",
-    "title": "Post With Code",
-    "section": "",
-    "text": "This is a post with executable code."
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -39,6 +25,6 @@
     "href": "index.html",
     "title": "myblog",
     "section": "",
-    "text": "Understanding Billionaires\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nMar 13, 2023\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nMar 10, 2023\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
+    "text": "Understanding Billionaires\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\nNo matching items"
   }
 ]
