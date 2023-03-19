@@ -121,9 +121,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -175,17 +172,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<section id="income-inequality" class="level1">
-<h1>Income Inequality</h1>
+<section id="understanding-billionaires" class="level1">
+<h1>Understanding Billionaires</h1>
 <section id="hubert-chen-405299125-32023" class="level3">
 <h3 class="anchored" data-anchor-id="hubert-chen-405299125-32023">Hubert Chen (405299125) 3/20/23</h3>
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>For my project, I will be analyzing information on billionaires worldwide. The dataset I will be using is from the CorGIS Dataset Project, and contains information on over 2,000 billionaires from various countries, along with details about their source of wealth, net worth, and industry.</p>
-<p>The dataset can be found here: https://corgis-edu.github.io/corgis/csv/billionaires/</p>
-<p>The dataset is stored as a comma-separate file format, which makes it easy to understand and analyze with Python. There are a total of 23 columns containing information such name, gender, age, source of wealth, industry, net worth. Overall, this dataset provides a thorough amount of information on billionaires to gain insight into the distribution and accumulation of wealth among individuals in different industries, countries, and demographics.</p>
-<p>My motivation for this project is to gain a deeper understanding of how wealth is distributed globally, and to explore the factors that contribute to the wealth of billionaires. In prior classes, I explored how different factors affected income inequality but I wanted to dive deeper into how certain individuals amass vass amounts of wealth beyond the average person. Additionally, I am interested in examining patterns and trends in data on billionaires to identify commonalities and differences between billionaires from different demographics. Using this information, I can showcase the factors that are more likely to lead towards financial success and ways to make the distribution of wealth more equitable.</p>
+<p>For my project, I will be analyzing information on billionaires worldwide. The dataset I will be using is from the CorGIS Dataset Project, and contains information on over 2,000 billionaires from various countries, along with details about their source of wealth, net worth, and industry. This project involves a thorough analysis of billionaires along with data visualizations to support my analysis. I will be analyzing billionaires across different factors, including gender, industry, country, and age to better understand how these factors play a role in creating billionaires.</p>
 <p>There are several questions I aim to answer in this project:</p>
 <ul>
 <li>What are the top industries that billionaires are involved in, and how has this changed over time?</li>
@@ -193,393 +187,114 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Are there any notable patterns or trends in the data that can help explain the distribution of wealth among billionaires?</li>
 </ul>
 </section>
-<section id="data-exploration" class="level2">
-<h2 class="anchored" data-anchor-id="data-exploration">Data Exploration</h2>
-<div class="cell" data-execution_count="12">
+</section>
+<section id="methods" class="level1">
+<h1>Methods</h1>
+<p>The dataset can be found here: https://corgis-edu.github.io/corgis/csv/billionaires/</p>
+<p>The dataset is stored as a comma-separate file format, which makes it easy to understand and analyze with Python. There are a total of 23 columns containing information such name, gender, age, source of wealth, industry, net worth. Overall, this dataset provides a thorough amount of information on billionaires to gain insight into the distribution and accumulation of wealth among individuals in different industries, countries, and demographics.</p>
+<p>To analyze this dataset, I utilized the BeautifulSoup library to web scrape the billionaires dataset from CorGIS. Once loaded, the data can be cleaned and preprocessed to remove missing values or inconsistencies. For preprocessing, I removed all rows that contained an age that was less than or equal to 0 due to the status of the entry being a couple. This is to make the visualizations later on more understandable, especially when we plot net worth versus age. Following this, I revealed a sample of this dataset and summary statistics as a basis for understanding how the data is structured. Using the summary information, I was able to narrow down on the attributes for analysis such as industry, gender, and net worth.</p>
+<p>The next step was to perform various statistical analyses and modeling techniques to uncover insights about the data. Through aggregating counts of rows with certain attributes and filtering to get the top results, I visualized the top factors and trends of billionaires in general. This was done to discover the dominant industries, distribution of net worth across age, countries, and gender. All visualizations were done using Matplotlib, featuring pie charts, bar charts, histograms, scatter plots and line graphs to show the relationships in the data.</p>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetching billionaires dataset</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>site <span class="op">=</span> <span class="st">"https://corgis-edu.github.io/corgis/csv/billionaires/"</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>page <span class="op">=</span> requests.get(site)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>soup <span class="op">=</span> BeautifulSoup(page.content, <span class="st">"html.parser"</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> link <span class="kw">in</span> soup.find_all(<span class="st">"a"</span>):</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> link.has_attr(<span class="st">"download"</span>):</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        csv_link <span class="op">=</span> site <span class="op">+</span> link[<span class="st">"href"</span>]</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>billionaires_df <span class="op">=</span> pd.read_csv(csv_link)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter out billionaires with age &lt;= 0 due to being a married couple</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>billionaires_df <span class="op">=</span> billionaires_df[billionaires_df[<span class="st">'demographics.age'</span>] <span class="op">&gt;</span> <span class="dv">0</span>]</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Billionaires Dataset Sample"</span>)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>billionaires_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Billionaires Dataset Sample</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="12">
-
-<div>
-
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>name</th>
-      <th>rank</th>
-      <th>year</th>
-      <th>company.founded</th>
-      <th>company.name</th>
-      <th>company.relationship</th>
-      <th>company.sector</th>
-      <th>company.type</th>
-      <th>demographics.age</th>
-      <th>demographics.gender</th>
-      <th>...</th>
-      <th>location.gdp</th>
-      <th>location.region</th>
-      <th>wealth.type</th>
-      <th>wealth.worth in billions</th>
-      <th>wealth.how.category</th>
-      <th>wealth.how.from emerging</th>
-      <th>wealth.how.industry</th>
-      <th>wealth.how.inherited</th>
-      <th>wealth.how.was founder</th>
-      <th>wealth.how.was political</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Bill Gates</td>
-      <td>1</td>
-      <td>1996</td>
-      <td>1975</td>
-      <td>Microsoft</td>
-      <td>founder</td>
-      <td>Software</td>
-      <td>new</td>
-      <td>40</td>
-      <td>male</td>
-      <td>...</td>
-      <td>8.100000e+12</td>
-      <td>North America</td>
-      <td>founder non-finance</td>
-      <td>18.5</td>
-      <td>New Sectors</td>
-      <td>True</td>
-      <td>Technology-Computer</td>
-      <td>not inherited</td>
-      <td>True</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Bill Gates</td>
-      <td>1</td>
-      <td>2001</td>
-      <td>1975</td>
-      <td>Microsoft</td>
-      <td>founder</td>
-      <td>Software</td>
-      <td>new</td>
-      <td>45</td>
-      <td>male</td>
-      <td>...</td>
-      <td>1.060000e+13</td>
-      <td>North America</td>
-      <td>founder non-finance</td>
-      <td>58.7</td>
-      <td>New Sectors</td>
-      <td>True</td>
-      <td>Technology-Computer</td>
-      <td>not inherited</td>
-      <td>True</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Bill Gates</td>
-      <td>1</td>
-      <td>2014</td>
-      <td>1975</td>
-      <td>Microsoft</td>
-      <td>founder</td>
-      <td>Software</td>
-      <td>new</td>
-      <td>58</td>
-      <td>male</td>
-      <td>...</td>
-      <td>0.000000e+00</td>
-      <td>North America</td>
-      <td>founder non-finance</td>
-      <td>76.0</td>
-      <td>New Sectors</td>
-      <td>True</td>
-      <td>Technology-Computer</td>
-      <td>not inherited</td>
-      <td>True</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Warren Buffett</td>
-      <td>2</td>
-      <td>1996</td>
-      <td>1962</td>
-      <td>Berkshire Hathaway</td>
-      <td>founder</td>
-      <td>Finance</td>
-      <td>new</td>
-      <td>65</td>
-      <td>male</td>
-      <td>...</td>
-      <td>8.100000e+12</td>
-      <td>North America</td>
-      <td>founder non-finance</td>
-      <td>15.0</td>
-      <td>Traded Sectors</td>
-      <td>True</td>
-      <td>Consumer</td>
-      <td>not inherited</td>
-      <td>True</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Warren Buffett</td>
-      <td>2</td>
-      <td>2001</td>
-      <td>1962</td>
-      <td>Berkshire Hathaway</td>
-      <td>founder</td>
-      <td>Finance</td>
-      <td>new</td>
-      <td>70</td>
-      <td>male</td>
-      <td>...</td>
-      <td>1.060000e+13</td>
-      <td>North America</td>
-      <td>founder non-finance</td>
-      <td>32.3</td>
-      <td>Traded Sectors</td>
-      <td>True</td>
-      <td>Consumer</td>
-      <td>not inherited</td>
-      <td>True</td>
-      <td>True</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 22 columns</p>
-</div>
-</div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetching billionaires dataset</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>site <span class="op">=</span> <span class="st">"https://corgis-edu.github.io/corgis/csv/billionaires/"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>page <span class="op">=</span> requests.get(site)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>soup <span class="op">=</span> BeautifulSoup(page.content, <span class="st">"html.parser"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> link <span class="kw">in</span> soup.find_all(<span class="st">"a"</span>):</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> link.has_attr(<span class="st">"download"</span>):</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        csv_link <span class="op">=</span> site <span class="op">+</span> link[<span class="st">"href"</span>]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>billionaires_df <span class="op">=</span> pd.read_csv(csv_link)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter out billionaires with age &lt;= 0 due to being a married couple</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>billionaires_df <span class="op">=</span> billionaires_df[billionaires_df[<span class="st">'demographics.age'</span>] <span class="op">&gt;</span> <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Billionaires Dataset Summary Statistics"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>billionaires_df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Billionaires Dataset Summary Statistics</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-
-<div>
-
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>rank</th>
-      <th>year</th>
-      <th>company.founded</th>
-      <th>demographics.age</th>
-      <th>location.gdp</th>
-      <th>wealth.worth in billions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>count</th>
-      <td>2229.000000</td>
-      <td>2229.000000</td>
-      <td>2229.000000</td>
-      <td>2229.000000</td>
-      <td>2.229000e+03</td>
-      <td>2229.000000</td>
-    </tr>
-    <tr>
-      <th>mean</th>
-      <td>641.864065</td>
-      <td>2009.772992</td>
-      <td>1942.800808</td>
-      <td>62.576492</td>
-      <td>1.617510e+12</td>
-      <td>3.723329</td>
-    </tr>
-    <tr>
-      <th>std</th>
-      <td>476.645256</td>
-      <td>6.790304</td>
-      <td>175.141855</td>
-      <td>13.134715</td>
-      <td>3.505285e+12</td>
-      <td>5.407252</td>
-    </tr>
-    <tr>
-      <th>min</th>
-      <td>1.000000</td>
-      <td>1996.000000</td>
-      <td>0.000000</td>
-      <td>12.000000</td>
-      <td>0.000000e+00</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>25%</th>
-      <td>234.000000</td>
-      <td>2001.000000</td>
-      <td>1941.000000</td>
-      <td>53.000000</td>
-      <td>0.000000e+00</td>
-      <td>1.400000</td>
-    </tr>
-    <tr>
-      <th>50%</th>
-      <td>490.000000</td>
-      <td>2014.000000</td>
-      <td>1968.000000</td>
-      <td>62.000000</td>
-      <td>0.000000e+00</td>
-      <td>2.100000</td>
-    </tr>
-    <tr>
-      <th>75%</th>
-      <td>1046.000000</td>
-      <td>2014.000000</td>
-      <td>1987.000000</td>
-      <td>72.000000</td>
-      <td>1.690000e+11</td>
-      <td>3.600000</td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td>1565.000000</td>
-      <td>2014.000000</td>
-      <td>2012.000000</td>
-      <td>98.000000</td>
-      <td>1.060000e+13</td>
-      <td>76.000000</td>
-    </tr>
-  </tbody>
-</table>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>top_industries <span class="op">=</span> billionaires_df[<span class="st">'wealth.how.industry'</span>].value_counts().nlargest(<span class="dv">10</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>plt.bar(x<span class="op">=</span>top_industries.index, height<span class="op">=</span>top_industries.values)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Top Industries of Billionaires'</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Industry'</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Billionaires'</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Billionaires_files/figure-html/cell-3-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-</div>
-<div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>plt.hist(data<span class="op">=</span>billionaires_df, x<span class="op">=</span><span class="st">'wealth.worth in billions'</span>, bins<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Distribution of Net Worth'</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Net Worth (in billions USD)'</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Billionaires'</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group billionaires by industry and year and count the number of billionaires</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>industry_year_counts <span class="op">=</span> billionaires_df.groupby([<span class="st">'wealth.how.industry'</span>, <span class="st">'year'</span>])[<span class="st">'name'</span>].count().reset_index()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by year and count</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>industry_year_counts <span class="op">=</span> industry_year_counts.sort_values([<span class="st">'year'</span>, <span class="st">'name'</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">False</span>])</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Get top 10 industries for most recent year in the dataset</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>top_industries <span class="op">=</span> industry_year_counts[industry_year_counts[<span class="st">'year'</span>] <span class="op">==</span> <span class="dv">2014</span>].head(<span class="dv">10</span>)[<span class="st">'wealth.how.industry'</span>].values</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter dataset to only include top industries for most recent year</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>top_industry_counts <span class="op">=</span> industry_year_counts[industry_year_counts[<span class="st">'wealth.how.industry'</span>].isin(top_industries)]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">10</span>))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> industry <span class="kw">in</span> top_industries:</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    plt.plot(<span class="st">'year'</span>, <span class="st">'name'</span>, data<span class="op">=</span>top_industry_counts[top_industry_counts[<span class="st">'wealth.how.industry'</span>] <span class="op">==</span> industry], label<span class="op">=</span>industry)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Top Industries of Billionaires over Time'</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Year'</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>plt.xlim([<span class="dv">1996</span>, <span class="dv">2014</span>])</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Billionaires'</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Billionaires_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>top_industries <span class="op">=</span> billionaires_df[<span class="st">'wealth.how.industry'</span>].value_counts().nlargest(<span class="dv">10</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.bar(x<span class="op">=</span>top_industries.index, height<span class="op">=</span>top_industries.values)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">90</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Top 10 Industries of Billionaires'</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Industry'</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Billionaires'</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>billionaires_df.plot.scatter(x<span class="op">=</span><span class="st">'demographics.age'</span>, y<span class="op">=</span><span class="st">'wealth.worth in billions'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Net Worth vs. Age among Billionaires'</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Age'</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Net Worth (in billions)'</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Billionaires_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>gender_counts <span class="op">=</span> billionaires_df[<span class="st">'demographics.gender'</span>].value_counts()</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plt.pie(x<span class="op">=</span>gender_counts.values, labels<span class="op">=</span>gender_counts.index, autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Gender Distribution of Billionaires'</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>top_10_countries <span class="op">=</span> billionaires_df[<span class="st">'location.country code'</span>].value_counts().head(<span class="dv">10</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">5</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>plt.bar(top_10_countries.index, top_10_countries.values)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Top 10 Countries with the Most Billionaires'</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Country'</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Billionaires'</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Billionaires_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plt.hist(data<span class="op">=</span>billionaires_df, x<span class="op">=</span><span class="st">'demographics.age'</span>, bins<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Distribution of Net Worth'</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Age'</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Count'</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gender_counts <span class="op">=</span> billionaires_df[<span class="st">'demographics.gender'</span>].value_counts()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.pie(x<span class="op">=</span>gender_counts.values, labels<span class="op">=</span>gender_counts.index, autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Gender Distribution of Billionaires'</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Billionaires_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-</section>
-<section id="data-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="data-analysis">Data Analysis</h2>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>top_industries <span class="op">=</span> billionaires_df[<span class="st">'wealth.how.industry'</span>].value_counts().nlargest(<span class="dv">10</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>plt.bar(x<span class="op">=</span>top_industries.index, height<span class="op">=</span>top_industries.values)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">90</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Top Industries of Billionaires'</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Industry'</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Billionaires'</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="Billionaires_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group billionaires by industry and year and count the number of billionaires</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>industry_year_counts <span class="op">=</span> billionaires_df.groupby([<span class="st">'wealth.how.industry'</span>, <span class="st">'year'</span>])[<span class="st">'name'</span>].count().reset_index()</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by year and count</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>industry_year_counts <span class="op">=</span> industry_year_counts.sort_values([<span class="st">'year'</span>, <span class="st">'name'</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">False</span>])</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Get top 10 industries for most recent year in the dataset</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>top_industries <span class="op">=</span> industry_year_counts[industry_year_counts[<span class="st">'year'</span>] <span class="op">==</span> <span class="dv">2014</span>].head(<span class="dv">10</span>)[<span class="st">'wealth.how.industry'</span>].values</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter dataset to only include top industries for most recent year</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>top_industry_counts <span class="op">=</span> industry_year_counts[industry_year_counts[<span class="st">'wealth.how.industry'</span>].isin(top_industries)]</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">10</span>))</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> industry <span class="kw">in</span> top_industries:</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    plt.plot(<span class="st">'year'</span>, <span class="st">'name'</span>, data<span class="op">=</span>top_industry_counts[top_industry_counts[<span class="st">'wealth.how.industry'</span>] <span class="op">==</span> industry], label<span class="op">=</span>industry)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Top Industries of Billionaires over Time'</span>)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Year'</span>)</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>plt.xlim([<span class="dv">1996</span>, <span class="dv">2014</span>])</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Billionaires'</span>)</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="Billionaires_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>billionaires_df.plot.scatter(x<span class="op">=</span><span class="st">'demographics.age'</span>, y<span class="op">=</span><span class="st">'wealth.worth in billions'</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Net Worth vs. Age among Billionaires'</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Age'</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Net Worth (in billions)'</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="Billionaires_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<div class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>top_10_countries <span class="op">=</span> billionaires_df[<span class="st">'location.country code'</span>].value_counts().head(<span class="dv">10</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">5</span>))</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>plt.bar(top_10_countries.index, top_10_countries.values)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Top 10 Countries with the Most Billionaires'</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Country'</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Billionaires'</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="Billionaires_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
-</div>
-</div>
+<p>The data analysis reveals some interesting findings regarding billionaires and their industries, location, and age. The bar chart of top industries shows that consumer is the top industry for billionaires, followed by real estate, retail, and restaurants. This suggests that these industries offer significant opportunities for wealth accumulation. Likewise, industries like non-consumer industrial, technology-medical, and energy had the fewest billionaires.</p>
+<p>The line chart of top industries over time shows that consumer has consistently been the top industry for billionaires, but there have been some changes in other industries. For example, real estate was the fifth top industry for billionaires in 1996 but became the second top industry by 2006. On the other hand, money management was the second top industry for billionaires in 1996 but fell to the sixth top industry by 2006. For industries like non-consumer industrial, technology-medical, and energy, they had the fewest billionaires throughout 1996 to 2004. This suggests that these industries are growing slower than the top industries.</p>
+<p>The scatter plot of net worth vs.&nbsp;age shows that there is a positive correlation between age and net worth, with older billionaires generally having higher net worths than their younger counterparts. This suggests that wealth accumulation takes significant time. In addition, it shows that billionaires gain even more wealth as they get older.</p>
+<p>The bar chart of top countries with the most billionaires shows that the United States has by far the most billionaires, followed by China, Denmark, and Russia. This suggests that wealth is concentrated in certain countries, and there may be cultural and economic factors that contribute to this trend. India, France, and Great Britain had the fewest billionaires but had roughly the same amount of billionaires as Brazil, Hong Kong, and Japan. A surprising observation was that the United States had as many billionaires as the next five countries combined.</p>
+<p>Overall, this data analysis reveals some important trends and patterns in the distribution of wealth among billionaires, and it highlights the importance that industry, age, location, and culture play in the status of billionaires.</p>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>The data analysis and visualizations above can be extrapolated to answer the research questions stated in the introduction. Firstly, the industries that reap the most billionaires changes over time, even within the span of a decade. However, there are industries that consistently produce billionaires like consumer industries, while other industries like education are left out. Industries like consumer ones make it possible for single individuals to amass vast wealth, suggesting that new policies and regulation could help to distribute wealth more equitably in these industries.</p>
+<p>Secondly, a predominant characteristic of billionaires is being male past the age of 40. This suggests that becoming a billionaire takes a significant amount of time to build wealth. Females are poorly represented in the billionaires group, suggesting females are disadvantaged in joining the wealthiest group. Gender discrimination plays a role in this by limiting opportunities for advancement, capital, and higher pay. Furthermore, gender stereotypes can make it hard for women to pursue business and entrepreneurial ventures, which is how the wealthy earn their wealth. Addressing these issues requires changing policy and cultural perspectives to increase opportunities for women to advance in whatever industry they desire.</p>
+<p>Additionally, the United States consistently produces the most billionaires, followed by China, Denmark, and Russia. Notably, these countries are among the most developed in the world and can provide the resources needed for billionaires to be created. These countries have among the largest economies and foster entrepreneurship and innovation. These are key ingredients for businesses to start, grow, and succeed, which allows new billionaires to arise. Also, these countries likely have laws, tax environments, and regulations that encourage business owners to conduct business in these countries. Thus, by living and working in one of these countries, an individual is more likely to accumulate extreme levels of wealth than in other countries.</p>
+<p>These findings highlight key characteristics of billionaires. From this, investors and entrepreneurs can identify important industries that are likely to generate wealth. In addition, the public can better understand how billionaires affect their respective industries. This is particularly important in addressing issues such as wealth inequality, philanthropy, and the relationship between business and society. Lastly, as an individual, knowing that becoming a billionaire takes significant time can help them to gain motivation to work for the long run. Overall, these findings are useful for the general good of the people.</p>
+<p>In conclusion, I was able to find commond trends and factors in billionaires using the CorGIS dataset. Hopefully, these insights can help to raise public awareness and lead towards a more equitable society.</p>
 
 
 </section>
